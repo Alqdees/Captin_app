@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "875145942508",
+    "firebase_url": "https://talabaty-d339f-default-rtdb.firebaseio.com",
+    "project_id": "talabaty-d339f",
+    "storage_bucket": "talabaty-d339f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875145942508:android:93f19b33456d8a5b9a5cc9",
+        "android_client_info": {
+          "package_name": "com.example.notification_of_support"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875145942508-sfe1mlfivfr6sjhi4ogugvj8doucpaup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCCFcwQ0r2_cJn1_BgIN89UvnOjaIarks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875145942508-sfe1mlfivfr6sjhi4ogugvj8doucpaup.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "875145942508-6koiehecslv043iotsl0hasittuch3jj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.notificationOfSupport"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
