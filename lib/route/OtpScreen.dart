@@ -3,21 +3,17 @@ import 'package:sizer/sizer.dart';
 
 import '../generated/l10n.dart';
 
-class OtpScreen extends StatefulWidget {
-  const OtpScreen({Key? key}) : super(key: key);
+class OtpScreen extends StatelessWidget {
+   OtpScreen({Key? key}) : super(key: key);
 
-  @override
-  _OtpScreenState createState() => _OtpScreenState();
-}
-
-class _OtpScreenState extends State<OtpScreen> {
   final TextEditingController _otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('OTP Screen'),
+        title: Center(child: Text('OTP Screen')),
+        backgroundColor: Colors.teal,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -34,46 +30,36 @@ class _OtpScreenState extends State<OtpScreen> {
               keyboardType: TextInputType.number,
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
-              onChanged: (txt) {
-                setState(() {
-                  print(txt);
-                });
-              },
               decoration: InputDecoration(
-                counterText: _otpController.text.length.toString(),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.teal),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(color: Colors.blue),
+                  borderSide: const BorderSide(color: Colors.teal),
                 ),
               ),
             ),
             SizedBox(
-              height: 10.h,
+              height: 6.h,
             ),
-            Center(
-                child: ElevatedButton(
-              onPressed: () {
-                // Do something when the button is pressed
-                setState(() {});
-              },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(1.h),
-                ),
-                side: BorderSide(color: Colors.blue, width: 0.2.w),
-              ),
+            ElevatedButton(
+              onPressed: () async {},
               child: Text(
-                S.of(context).confirm,
+                S.of(context).Sign,
                 style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  backgroundColor: Colors.transparent,
+                ),
               ),
-            ))
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 104, 181, 173)),
+              ),
+            ),
           ],
         ),
       ),

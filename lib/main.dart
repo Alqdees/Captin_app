@@ -7,7 +7,6 @@ import 'package:notification_of_support/route/Detail_screen.dart';
 import 'package:notification_of_support/route/HomeScreen.dart';
 import 'package:notification_of_support/route/OtpScreen.dart';
 import 'package:notification_of_support/route/SignInScreen.dart';
-import 'package:notification_of_support/route/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'firebase_options.dart';
@@ -64,7 +63,7 @@ class _MyAppState extends State<MyApp> {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home:const OtpScreen(),
+          home:  SignInScreen(),
           navigatorKey: navigatorKey,
           routes: {
             DetailScreen.Route: (context) => const DetailScreen(),

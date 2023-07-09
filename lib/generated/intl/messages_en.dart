@@ -22,11 +22,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "ShortNumber":
+            MessageLookupByLibrary.simpleMessage("The Number is short"),
+        "Sign": MessageLookupByLibrary.simpleMessage("SignIn"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "date": MessageLookupByLibrary.simpleMessage("date :"),
         "descriptionOTP": MessageLookupByLibrary.simpleMessage(
             "Enter the OTP sent to your phone number"),
         "detail_screen": MessageLookupByLibrary.simpleMessage("Detail Screen"),
+        "enterNumber":
+            MessageLookupByLibrary.simpleMessage("Enter your Number"),
+        "getNumber": MessageLookupByLibrary.simpleMessage("Enter your Number "),
         "name": MessageLookupByLibrary.simpleMessage("name :")
       };
 }

@@ -99,6 +99,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter your Number `
+  String get getNumber {
+    return Intl.message(
+      'Enter your Number ',
+      name: 'getNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SignIn`
+  String get Sign {
+    return Intl.message(
+      'SignIn',
+      name: 'Sign',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your Number`
+  String get enterNumber {
+    return Intl.message(
+      'Enter your Number',
+      name: 'enterNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Number is short`
+  String get ShortNumber {
+    return Intl.message(
+      'The Number is short',
+      name: 'ShortNumber',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

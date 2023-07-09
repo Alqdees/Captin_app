@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,9 +12,11 @@ class ModelProvider extends ChangeNotifier {
   late FirebaseDatabase database;
   late DatabaseReference databaseReference;
   late SharedPreferences prefs;
+  
 
- void getObj() async {
+  void getObj() async {
     prefs = await SharedPreferences.getInstance();
+   
   }
 
   // List get us => users;
@@ -84,13 +87,32 @@ class ModelProvider extends ChangeNotifier {
     );
   }
 
-  bool? isLogged()  {
-  
+  bool? isLogged() {
     return prefs.getBool('isLoggin');
   }
 
   Future<void> saveData() async {
-   
     prefs.setBool('isLoggin', true);
+  }
+
+  void sendSMS(String number) async {
+    // await auth?.signInWithPhoneNumber('+964${number.substring(1)}');
+    
+    // await auth?.verifyPhoneNumber(
+    //   phoneNumber: '+964${number.substring(1)}',
+    //   verificationCompleted: (PhoneAuthCredential credential) {
+    //     print("____1____${credential.smsCode}");
+    //   },
+    //   verificationFailed: (FirebaseAuthException e) {
+    //     print("____${e.message}");
+    //   },
+    //   codeSent: (String verificationId, int? resendToken) {
+    //     print("____${verificationId}");
+    //   },
+    //   codeAutoRetrievalTimeout: (String verificationId) {
+    //     print("____${verificationId}");
+    //   },
+    // );
+    notifyListeners();
   }
 }
