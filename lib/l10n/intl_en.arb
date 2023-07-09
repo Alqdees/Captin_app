@@ -1,5 +1,7 @@
 {
     "name": "name :",
     "date": "date :",
-    "detail_screen" : "Detail Screen"
+    "detail_screen" : "Detail Screen",
+    "confirm" : "Confirm",
+    "descriptionOTP" : "Enter the OTP sent to your phone number"
 }

@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:notification_of_support/model_provider/FireBaseApi.dart';
 import 'package:notification_of_support/route/Detail_screen.dart';
 import 'package:notification_of_support/route/HomeScreen.dart';
+import 'package:notification_of_support/route/OtpScreen.dart';
 import 'package:notification_of_support/route/SignInScreen.dart';
 import 'package:notification_of_support/route/SplashScreen.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FireBaseApi().initNotification();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
  SystemChrome.setPreferredOrientations([
   DeviceOrientation.portraitUp,
@@ -63,12 +64,12 @@ class _MyAppState extends State<MyApp> {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home:const SplashScreen(),
+          home:const OtpScreen(),
           navigatorKey: navigatorKey,
           routes: {
             DetailScreen.Route: (context) => const DetailScreen(),
             HomeScreen.Route: (context) => const HomeScreen(),
-            SignInScreen.Route: (context) => SignInScreen(),
+            SignInScreen.Route: (context) =>  SignInScreen(),
           },
         );
       },

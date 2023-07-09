@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:notification_of_support/route/HomeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ModelProvider extends ChangeNotifier {
@@ -72,30 +71,6 @@ class ModelProvider extends ChangeNotifier {
 
   void managerScreen(String route, BuildContext context, {Object? object}) {
     Navigator.pushNamed(context, route, arguments: object);
-    notifyListeners();
-  }
-
-  String? _username;
-  String? _password;
-  bool _isLoggedIn = false;
-
-  bool get isLoggedIn => _isLoggedIn;
-
-  void signIn(String username, String password, BuildContext context) {
-    // TODO: Implement your sign-in logic here.
-    if (username == 'admin' && password == 'admin') {
-      _username = username;
-      _password = password;
-      _isLoggedIn = true;
-      Navigator.pushReplacementNamed(context, HomeScreen.Route);
-      notifyListeners();
-    }
-  }
-
-  void signOut() {
-    _username = null;
-    _password = null;
-    _isLoggedIn = false;
     notifyListeners();
   }
 

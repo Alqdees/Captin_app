@@ -79,6 +79,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the OTP sent to your phone number`
+  String get descriptionOTP {
+    return Intl.message(
+      'Enter the OTP sent to your phone number',
+      name: 'descriptionOTP',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
