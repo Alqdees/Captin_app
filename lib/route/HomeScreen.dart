@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notification_of_support/model_provider/provider.dart';
 import 'package:provider/provider.dart';
-import 'SignInScreen.dart';
 import 'Widget/CardView.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,11 +9,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final userModel = Provider.of<ModelProvider>(context);
-
-    // if (!userModel.isLoggedIn) {
-    //   return SignInScreen();
-    // }
     context.read<ModelProvider>().getContactData();
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Card(
                           elevation: 8,
-                          shadowColor: Colors.tealAccent,
+                          shadowColor: Colors.black,
                           child: CardView(
                             name: value.users[index]['name'],
                             msgContent: value.users[index]['msgContent'],

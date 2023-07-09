@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:notification_of_support/Models/SendDataOtp.dart';
+import 'package:notification_of_support/model_provider/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
 import '../generated/l10n.dart';
 
 class OtpScreen extends StatelessWidget {
-   OtpScreen({Key? key}) : super(key: key);
+  OtpScreen({Key? key}) : super(key: key);
+
+  static const ROUTE = "/OtpScreen";
 
   final TextEditingController _otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final myObject = ModalRoute.of(context)!.settings.arguments as DataToOTP;
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('OTP Screen')),
+        title: const Center(child: Text('OTP Screen')),
         backgroundColor: Colors.teal,
       ),
       body: Padding(
@@ -45,7 +50,14 @@ class OtpScreen extends StatelessWidget {
               height: 6.h,
             ),
             ElevatedButton(
-              onPressed: () async {},
+              onPressed: () async {
+                context.read<ModelProvider>().signInWithOTP(
+                    myObject.verificationId.toString(), _otpController.text,context);
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 104, 181, 173)),
+              ),
               child: Text(
                 S.of(context).Sign,
                 style: TextStyle(
@@ -54,10 +66,6 @@ class OtpScreen extends StatelessWidget {
                   color: Colors.black,
                   backgroundColor: Colors.transparent,
                 ),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    const Color.fromARGB(255, 104, 181, 173)),
               ),
             ),
           ],

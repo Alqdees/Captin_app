@@ -3,7 +3,11 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:notification_of_support/route/HomeScreen.dart';
+import 'package:notification_of_support/route/OtpScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Models/SendDataOtp.dart';
 
 class ModelProvider extends ChangeNotifier {
   List users = [];
@@ -12,11 +16,12 @@ class ModelProvider extends ChangeNotifier {
   late FirebaseDatabase database;
   late DatabaseReference databaseReference;
   late SharedPreferences prefs;
-  
 
+  FirebaseAuth? auth;
   void getObj() async {
     prefs = await SharedPreferences.getInstance();
-   
+    auth = FirebaseAuth.instance;
+    auth?.setLanguageCode('en-US');
   }
 
   // List get us => users;
@@ -72,7 +77,7 @@ class ModelProvider extends ChangeNotifier {
         connectivityResult == ConnectivityResult.mobile;
   }
 
-  void managerScreen(String route, BuildContext context, {Object? object}) {
+  void managerScreen(String route, BuildContext context, Object? object) {
     Navigator.pushNamed(context, route, arguments: object);
     notifyListeners();
   }
@@ -85,6 +90,7 @@ class ModelProvider extends ChangeNotifier {
         return pro;
       },
     );
+    notifyListeners();
   }
 
   bool? isLogged() {
@@ -95,24 +101,41 @@ class ModelProvider extends ChangeNotifier {
     prefs.setBool('isLoggin', true);
   }
 
-  void sendSMS(String number) async {
+  void sendSMS(String number, BuildContext context) async {
     // await auth?.signInWithPhoneNumber('+964${number.substring(1)}');
-    
-    // await auth?.verifyPhoneNumber(
-    //   phoneNumber: '+964${number.substring(1)}',
-    //   verificationCompleted: (PhoneAuthCredential credential) {
-    //     print("____1____${credential.smsCode}");
-    //   },
-    //   verificationFailed: (FirebaseAuthException e) {
-    //     print("____${e.message}");
-    //   },
-    //   codeSent: (String verificationId, int? resendToken) {
-    //     print("____${verificationId}");
-    //   },
-    //   codeAutoRetrievalTimeout: (String verificationId) {
-    //     print("____${verificationId}");
-    //   },
-    // );
+
+    await auth?.verifyPhoneNumber(
+      phoneNumber: '+964${number.substring(1)}',
+      verificationCompleted: (PhoneAuthCredential credential) {
+        print("verificationCompleted____${credential.smsCode}");
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        print("verificationFailed____${e.message}");
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        managerScreen(OtpScreen.ROUTE, context, DataToOTP(verificationId));
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        print("codeAutoRetrievalTimeout________${verificationId}");
+      },
+    );
+    notifyListeners();
+  }
+
+  void signInWithOTP(
+      String verificationId, String smsCode, BuildContext context) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: smsCode);
+    UserCredential? result = await auth?.signInWithCredential(credential);
+    User? user = result?.user;
+    if (user != null) {
+      removeScreen(context, HomeScreen.Route, false);
+      saveData();
+      // User signed in
+    } else {
+      print('___________Sign in failed');
+      // Sign in failed
+    }
     notifyListeners();
   }
 }

@@ -7,6 +7,7 @@ import 'package:notification_of_support/route/Detail_screen.dart';
 import 'package:notification_of_support/route/HomeScreen.dart';
 import 'package:notification_of_support/route/OtpScreen.dart';
 import 'package:notification_of_support/route/SignInScreen.dart';
+import 'package:notification_of_support/route/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'firebase_options.dart';
@@ -20,10 +21,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FireBaseApi().initNotification();
+  
 
+  await FireBaseApi().initNotification();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
- SystemChrome.setPreferredOrientations([
+  SystemChrome.setPreferredOrientations([
   DeviceOrientation.portraitUp,
   DeviceOrientation.portraitDown
  ]);
@@ -37,16 +39,12 @@ void main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
   Widget build(BuildContext context) {
+  
     return Sizer(
       builder: (context, orSize, deviceType) {
         return MaterialApp(
@@ -59,16 +57,19 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: S.delegate.supportedLocales,
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
+          initialRoute: SplashScreen.ROUTE,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home:  SignInScreen(),
+          // home:  SignInScreen(),
           navigatorKey: navigatorKey,
           routes: {
             DetailScreen.Route: (context) => const DetailScreen(),
             HomeScreen.Route: (context) => const HomeScreen(),
             SignInScreen.Route: (context) =>  SignInScreen(),
+            OtpScreen.ROUTE : (context) => OtpScreen(),
+            SplashScreen.ROUTE :(context) => const SplashScreen(),
           },
         );
       },

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notification_of_support/model_provider/provider.dart';
 import 'package:provider/provider.dart';
@@ -9,12 +8,12 @@ class SignInScreen extends StatelessWidget {
   static const Route = '/SignInScreen';
   final TextEditingController _otpController = TextEditingController();
 
-  FirebaseAuth? auth;
   SignInScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    auth = FirebaseAuth.instance;
-    auth?.setLanguageCode('en-US');
+    final prov = Provider.of<ModelProvider>(context, listen: false);
+    prov.getObj();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sign In'),
@@ -22,7 +21,6 @@ class SignInScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(1.h),
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
               height: 2.h,
@@ -59,25 +57,6 @@ class SignInScreen extends StatelessWidget {
             SizedBox(height: 4.h),
             ElevatedButton(
               onPressed: () async {
-                // Center(child: CircularProgressIndicator(
-                //   strokeWidth: 4,
-                // ));
-                // if (_otpController.text.isEmpty) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text(
-                //         S.of(context).enterNumber,
-                //       ),
-                //     ),
-                //   );
-                //   return;
-                // }
-                // if (_otpController.text.length < 11) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //       SnackBar(content: Text(S.of(context).ShortNumber)));
-                //   return;
-                // }
-
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Waiting Plaese... '),
@@ -87,23 +66,14 @@ class SignInScreen extends StatelessWidget {
                 );
                 // context.read<ModelProvider>().sendSMS(_otpController.text);
                 Future.delayed(const Duration(seconds: 4), () async {
-                  await auth?.verifyPhoneNumber(
-                    phoneNumber: '+964${_otpController.text.substring(1)}',
-                    verificationCompleted: (PhoneAuthCredential credential) {
-                      print("____1____${credential.smsCode}");
-                    },
-                    verificationFailed: (FirebaseAuthException e) {
-                      print("____${e.message}");
-                    },
-                    codeSent: (String verificationId, int? resendToken) {
-                      print("verificationId_________${verificationId}");
-                    },
-                    codeAutoRetrievalTimeout: (String verificationId) {
-                      print("____${verificationId}");
-                    },
-                  );
+                  prov.sendSMS(_otpController.text.toString(),context);
                 });
               },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color.fromARGB(255, 104, 181, 173),
+                ),
+              ),
               child: Text(
                 S.of(context).Sign,
                 style: TextStyle(
@@ -112,10 +82,6 @@ class SignInScreen extends StatelessWidget {
                   color: Colors.black,
                   backgroundColor: Colors.transparent,
                 ),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    const Color.fromARGB(255, 104, 181, 173)),
               ),
             ),
           ],
