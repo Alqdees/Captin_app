@@ -43,6 +43,12 @@ class HomeScreen extends StatelessWidget {
                 );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.read<ModelProvider>().sendNotification();
+        },
+        child: const Icon(Icons.notification_add),
+      ),
     );
   }
 }

@@ -15,6 +15,7 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myObject = ModalRoute.of(context)!.settings.arguments as DataToOTP;
+    context.read<ModelProvider>().getOBJMesseging();
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('OTP Screen')),
@@ -50,9 +51,13 @@ class OtpScreen extends StatelessWidget {
               height: 6.h,
             ),
             ElevatedButton(
-              onPressed: () async {
+              onPressed: ()  {
+                
                 context.read<ModelProvider>().signInWithOTP(
-                    myObject.verificationId.toString(), _otpController.text,context);
+                    myObject.verificationId!,
+                    myObject.number!,
+                    _otpController.text,
+                    context);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

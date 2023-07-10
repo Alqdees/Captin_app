@@ -66,7 +66,7 @@ class SignInScreen extends StatelessWidget {
                 );
                 // context.read<ModelProvider>().sendSMS(_otpController.text);
                 Future.delayed(const Duration(seconds: 4), () async {
-                  prov.sendSMS(_otpController.text.toString(),context);
+                  prov.sendSMS(_otpController.text,context);
                 });
               },
               style: ButtonStyle(

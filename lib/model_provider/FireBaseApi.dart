@@ -29,6 +29,7 @@ class FireBaseApi {
     await _fireMessaging.requestPermission();
     // print('______ ${await _fireMessaging.getToken()}');
     // await _fireMessaging.getToken();
+    
     initPush();
   }
 }

@@ -1,5 +1,5 @@
 class DataToOTP {
-  String? verificationId;
+  String? verificationId,number;
 
-  DataToOTP(this.verificationId);
+  DataToOTP({this.verificationId,this.number});
 }

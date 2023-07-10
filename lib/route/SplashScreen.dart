@@ -15,15 +15,14 @@ class SplashScreen extends StatelessWidget {
     final providModel = Provider.of<ModelProvider>(context, listen: false);
     providModel.getObj();
     Future.delayed(const Duration(seconds: 3), () {
-      print('__________${providModel.isLogged() ?? false}');
       if (providModel.isLogged() ?? false) {
         providModel.removeScreen(context, HomeScreen.Route, false);
       } else {
-        print(providModel.isLogged() ?? false);
         providModel.removeScreen(context, SignInScreen.Route, false);
       }
       SystemChrome.restoreSystemUIOverlays();
     });
+
     return Scaffold(
         body: Center(
             child: Column(
