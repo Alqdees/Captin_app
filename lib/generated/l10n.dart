@@ -139,6 +139,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Waiting Plaese... `
+  String get wait {
+    return Intl.message(
+      'Waiting Plaese... ',
+      name: 'wait',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Your OTP`
+  String get EnterOTP {
+    return Intl.message(
+      'Enter Your OTP',
+      name: 'EnterOTP',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error The OTP`
+  String get ErrorOTP {
+    return Intl.message(
+      'Error The OTP',
+      name: 'ErrorOTP',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `School`
+  String get nameApp {
+    return Intl.message(
+      'School',
+      name: 'nameApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to Cappen Application`
+  String get welcome {
+    return Intl.message(
+      'Welcome to Cappen Application',
+      name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

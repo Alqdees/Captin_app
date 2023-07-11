@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "EnterOTP": MessageLookupByLibrary.simpleMessage("Enter Your OTP"),
+        "ErrorOTP": MessageLookupByLibrary.simpleMessage("Error The OTP"),
         "ShortNumber":
             MessageLookupByLibrary.simpleMessage("The Number is short"),
         "Sign": MessageLookupByLibrary.simpleMessage("SignIn"),
@@ -33,6 +35,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterNumber":
             MessageLookupByLibrary.simpleMessage("Enter your Number"),
         "getNumber": MessageLookupByLibrary.simpleMessage("Enter your Number "),
-        "name": MessageLookupByLibrary.simpleMessage("name :")
+        "name": MessageLookupByLibrary.simpleMessage("name :"),
+        "nameApp": MessageLookupByLibrary.simpleMessage("School"),
+        "wait": MessageLookupByLibrary.simpleMessage("Waiting Plaese... "),
+        "welcome": MessageLookupByLibrary.simpleMessage(
+            "Welcome to Cappen Application")
       };
 }

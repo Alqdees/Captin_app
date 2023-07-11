@@ -7,5 +7,10 @@
     "getNumber": "Enter your Number ",
     "Sign": "SignIn",
     "enterNumber": "Enter your Number",
-    "ShortNumber": "The Number is short"
+    "ShortNumber": "The Number is short",
+    "wait": "Waiting Plaese... ",
+    "EnterOTP": "Enter Your OTP",
+    "ErrorOTP": "Error The OTP",
+    "nameApp": "School",
+    "welcome": "Welcome to Cappen Application"
 }

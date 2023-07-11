@@ -21,14 +21,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
 
   await FireBaseApi().initNotification();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-  SystemChrome.setPreferredOrientations([
-  DeviceOrientation.portraitUp,
-  DeviceOrientation.portraitDown
- ]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
     MultiProvider(
       providers: [
@@ -44,7 +41,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return Sizer(
       builder: (context, orSize, deviceType) {
         return MaterialApp(
@@ -67,9 +63,9 @@ class MyApp extends StatelessWidget {
           routes: {
             DetailScreen.Route: (context) => const DetailScreen(),
             HomeScreen.Route: (context) => const HomeScreen(),
-            SignInScreen.Route: (context) =>  SignInScreen(),
-            OtpScreen.ROUTE : (context) => OtpScreen(),
-            SplashScreen.ROUTE :(context) => const SplashScreen(),
+            SignInScreen.Route: (context) => SignInScreen(),
+            OtpScreen.ROUTE: (context) => OtpScreen(),
+            SplashScreen.ROUTE: (context) => const SplashScreen(),
           },
         );
       },

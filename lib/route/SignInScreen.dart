@@ -57,17 +57,36 @@ class SignInScreen extends StatelessWidget {
             SizedBox(height: 4.h),
             ElevatedButton(
               onPressed: () async {
+                if (_otpController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(S.of(context).enterNumber),
+                    ),
+                  );
+                  return;
+                }
+                if (_otpController.text.length < 11) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(S.of(context).ShortNumber),
+                    ),
+                  );
+                  return;
+                }
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Waiting Plaese... '),
+                  SnackBar(
+                    content: Text(S.of(context).wait),
                     elevation: 8,
-                    duration: Duration(seconds: 2),
+                    duration: const Duration(seconds: 2),
                   ),
                 );
-                // context.read<ModelProvider>().sendSMS(_otpController.text);
-                Future.delayed(const Duration(seconds: 4), () async {
-                  prov.sendSMS(_otpController.text,context);
-                });
+                Future.delayed(
+                  const Duration(seconds: 4),
+                  () async {
+                    // print('___________onClick');
+                    prov.sendSMS(_otpController.text, context);
+                  },
+                );
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

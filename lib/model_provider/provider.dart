@@ -37,9 +37,9 @@ class ModelProvider extends ChangeNotifier {
     bool result = await _connection().then((value) => value);
 
     if (result) {
-      databaseReference = await FirebaseDatabase.instance.ref('contactForm');
+      databaseReference = FirebaseDatabase.instance.ref('contactForm');
       users.clear();
-      await databaseReference.onValue.listen(
+      databaseReference.onValue.listen(
         (event) {
           for (var child in event.snapshot.children) {
             users.add(child.value);
@@ -122,7 +122,7 @@ class ModelProvider extends ChangeNotifier {
             DataToOTP(verificationId: verificationId, number: number));
       },
       codeAutoRetrievalTimeout: (String verificationId) {
-        print("codeAutoRetrievalTimeout________${verificationId}");
+        print("codeAutoRetrievalTimeout________$verificationId");
       },
     );
     notifyListeners();
@@ -130,7 +130,7 @@ class ModelProvider extends ChangeNotifier {
 
   void signInWithOTP(String verificationId, String number, String smsCode,
       BuildContext context) async {
-        String? token = await _firebaseMessaging?.getToken();
+    String? token = await _firebaseMessaging?.getToken();
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: smsCode);
     UserCredential? result = await auth?.signInWithCredential(credential);
@@ -139,7 +139,7 @@ class ModelProvider extends ChangeNotifier {
     if (user != null) {
       removeScreen(context, HomeScreen.Route, false);
       saveData();
-      await registerDataInRealTime(number,token);
+      await registerDataInRealTime(number, token);
       // User signed in
     } else {
       removeScreen(context, SplashScreen.ROUTE, false);
@@ -149,9 +149,8 @@ class ModelProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future registerDataInRealTime(String? number,String? token) async {
-    
-    databaseReference = await FirebaseDatabase.instance.ref('RegisterFather');
+  Future registerDataInRealTime(String? number, String? token) async {
+    databaseReference = FirebaseDatabase.instance.ref('RegisterFather');
     await databaseReference.child(number!).set({
       'number': number,
       'token': token,
@@ -159,10 +158,8 @@ class ModelProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  sendNotification() {
-    SendNotification.sendNotification(
-        'ckPjgvLLSHeg_rNaQ7WaX-:APA91bHgpsleAPGa9OBzVk_xvACjU8aaE6I5boI0pNy4UA1xVDb-PUAp33Idul-_Z6Fylcfm37hRbEyEmM4UXMKql7M-yuES61-S3Ot2BvbWl1haPwlawxTZ5bgbsf7Rw7ejqgq0c0RO',
-        'hi',
-        'hi every one');
+  void sendNotification() async {
+    SendNotification.sendNotification('dsdnGviKTtW3nx_Eg9pDbY:APA91bEYILyGOKhjWdPZf0SMXW7Je59hGw9EBIR4elftLssG8eKinO8Pe9LEOJN6txye_kNV5lXHchGWZZS3UOb4maldN9kXblZFSPMXL7eRwgK76bk0x5gAedvajGfHbmke_ShRc8QZ', 'مساء الخير', 'اذا اشتغل راسلني ');
+    notifyListeners();
   }
 }

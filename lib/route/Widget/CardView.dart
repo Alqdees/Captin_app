@@ -57,6 +57,36 @@ class CardView extends StatelessWidget {
               ],
             ),
           ),
+          // IconButton(
+          //   icon: const Icon(Icons.notification_add),
+          //   onPressed: () {
+          //     showDialog(
+          //       context: context,
+          //       builder: (BuildContext context) {
+          //         return AlertDialog(
+          //           title: const Text("Title"),
+          //           content: const Text("Message"),
+          //           actions: [
+          //             TextButton(
+          //               child: const Text("OK"),
+          //               onPressed: () {
+          //                 // do something when the "OK" button is clicked
+
+          //                 Navigator.of(context).pop();
+          //               },
+          //             ),
+          //             TextButton(
+          //               child: const Text("Cancel"),
+          //               onPressed: () {
+          //                 Navigator.of(context).pop();
+          //               },
+          //             ),
+          //           ],
+          //         );
+          //       },
+          //     );
+          //   },
+          // ),
         ],
       ),
     );

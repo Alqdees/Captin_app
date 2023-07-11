@@ -51,13 +51,58 @@ class OtpScreen extends StatelessWidget {
               height: 6.h,
             ),
             ElevatedButton(
-              onPressed: ()  {
-                
-                context.read<ModelProvider>().signInWithOTP(
-                    myObject.verificationId!,
-                    myObject.number!,
-                    _otpController.text,
-                    context);
+              onPressed: () {
+                if (_otpController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Center(
+                        child: Text(
+                          S.of(context).EnterOTP,
+                          style: TextStyle(
+                              fontSize: 12.sp, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  );
+                  return;
+                }
+                if (_otpController.text.length < 6 ||
+                    _otpController.text.length > 6) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Center(
+                        child: Text(
+                          S.of(context).ErrorOTP,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                  return;
+                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      S.of(context).wait,
+                      style: TextStyle(
+                          fontSize: 12.sp, fontWeight: FontWeight.bold),
+                    ),
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+                Future.delayed(
+                  const Duration(seconds: 4),
+                  () async {
+                    context.read<ModelProvider>().signInWithOTP(
+                        myObject.verificationId.toString(),
+                        myObject.number.toString(),
+                        _otpController.text,
+                        context);
+                  },
+                );
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

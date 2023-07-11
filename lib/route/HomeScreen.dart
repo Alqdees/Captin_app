@@ -5,7 +5,7 @@ import 'Widget/CardView.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-  static const String Route = 'HomeScreen';
+  static const Route = '/HomeScreen';
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +36,13 @@ class HomeScreen extends StatelessWidget {
                             name: value.users[index]['name'],
                             msgContent: value.users[index]['msgContent'],
                           ),
+
                         );
                       },
                     ),
                   ),
                 );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<ModelProvider>().sendNotification();
-        },
-        child: const Icon(Icons.notification_add),
       ),
     );
   }
