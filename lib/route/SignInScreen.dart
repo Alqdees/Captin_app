@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:notification_of_support/model_provider/provider.dart';
+import 'package:notification_of_support/route/HomeScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../generated/l10n.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends StatelessWidget {
   static const Route = '/SignInScreen';
 
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
 
-  @override
-  State<SignInScreen> createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends State<SignInScreen> {
-  final TextEditingController _otpController = TextEditingController();
+  final TextEditingController _number = TextEditingController();
 
   // List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-  // String selectedItem = 'Item 1';
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<ModelProvider>(context, listen: false);
-    prov.getObj();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -55,7 +49,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   return DropdownButton<String>(
                     value: value,
                     items: prov.items.map((String item) {
-                      print('_____1 $item');
                       return DropdownMenuItem<String>(
                         value: item,
                         child: Text(item),
@@ -63,10 +56,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     }).toList(),
                     onChanged: (String? newValue) {
                       prov.getStringData(newValue!);
-                      // setState(() {
-                      // selectedItem = newValue!;
-                      print("__________2 $newValue");
-                      // });
                     },
                   );
                 },
@@ -89,7 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
               height: 2.h,
             ),
             TextField(
-              controller: _otpController,
+              controller: _number,
               keyboardType: TextInputType.number,
               style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
@@ -107,7 +96,7 @@ class _SignInScreenState extends State<SignInScreen> {
             SizedBox(height: 4.h),
             ElevatedButton(
               onPressed: () async {
-                if (_otpController.text.isEmpty) {
+                if (_number.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(S.of(context).enterNumber),
@@ -115,8 +104,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   );
                   return;
                 }
-                if (_otpController.text.length < 11 ||
-                    _otpController.text.length > 11) {
+                if (_number.text.length < 11 || _number.text.length > 11) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(S.of(context).ShortNumber),
@@ -124,12 +112,33 @@ class _SignInScreenState extends State<SignInScreen> {
                   );
                   return;
                 }
+                if (await prov.connection()) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                     const SnackBar(
+                      content: Text('no internet connection'),
+                    ),
+                  );
+                  return;
+                }
+                prov.sendData(_number.text);
+                myFunction(context);
 
-                Future.delayed(
-                  const Duration(seconds: 2),
+                await Future.delayed(
+                  const Duration(seconds: 5),
                   () async {
-                    print('___________onClick');
-                    // prov.sendSMS(_otpController.text, context);
+                    if (prov.isAvailable ?? false) {
+                      await prov.saveData();
+                      await prov.registerInApi(_number.text);
+                      prov.removeScreen(context, HomeScreen.Route, false);
+                      return;
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          duration: Duration(seconds: 3),
+                          content: Text('Error'),
+                        ),
+                      );
+                    }
                   },
                 );
               },
@@ -154,33 +163,21 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // void _showPopupMenu(BuildContext context, Offset offset) async {
-  //   final RenderBox overlay =
-  //       Overlay.of(context).context.findRenderObject() as RenderBox;
-  //   final RelativeRect position = RelativeRect.fromRect(
-  //     Rect.fromPoints(
-  //       offset,
-  //       offset.translate(0, 0),
-  //     ),
-  //     Offset.zero & overlay.size,
-  //   );
-  //   final selectedItem = await showMenu<String>(
-  //     context: context,
-  //     position: position,
-  //     items: <PopupMenuEntry<String>>[
-  //       const PopupMenuItem<String>(
-  //         value: 'Option 1',
-  //         child: Text('Option 1'),
-  //       ),
-  //       const PopupMenuItem<String>(
-  //         value: 'Option 2',
-  //         child: Text('Option 2'),
-  //       ),
-  //       const PopupMenuItem<String>(
-  //         value: 'Option 3',
-  //         child: Text('Option 3'),
-  //       ),
-  //     ],
-  //   );
-  // }
+  void myFunction(BuildContext context) async {
+    showDialog(
+      context: context,
+      useSafeArea: true,
+      barrierColor: Colors.black26,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: Colors.blue,
+          ),
+        );
+      },
+    );
+
+    await Future.delayed(const Duration(seconds: 5));
+    Navigator.of(context).pop();
+  }
 }

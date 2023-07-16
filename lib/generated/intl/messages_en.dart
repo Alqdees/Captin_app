@@ -25,7 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "EnterOTP": MessageLookupByLibrary.simpleMessage("Enter Your OTP"),
         "ErrorOTP": MessageLookupByLibrary.simpleMessage("Error The OTP"),
         "ShortNumber":
-            MessageLookupByLibrary.simpleMessage("The Number is incorrect"),
+            MessageLookupByLibrary.simpleMessage("The number should be 11"),
         "Sign": MessageLookupByLibrary.simpleMessage("SignIn"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),

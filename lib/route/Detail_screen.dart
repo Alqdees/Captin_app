@@ -25,7 +25,7 @@ class DetailScreen extends StatelessWidget {
             ),
             OutlinedButton(
               onPressed: () {
-                context.read<ModelProvider>().sendData();
+                // context.read<ModelProvider>().sendData();
               },
               child: const Text('Details '),
             )

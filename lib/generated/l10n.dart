@@ -130,10 +130,10 @@ class S {
     );
   }
 
-  /// `The Number is incorrect`
+  /// `The number should be 11`
   String get ShortNumber {
     return Intl.message(
-      'The Number is incorrect',
+      'The number should be 11',
       name: 'ShortNumber',
       desc: '',
       args: [],

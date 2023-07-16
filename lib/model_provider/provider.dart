@@ -24,24 +24,32 @@ class ModelProvider extends ChangeNotifier {
   FirebaseAuth? auth;
   List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
   String _selectedItem = 'Item 1';
-
+  String? _token;
+  bool? _isAvailable;
   String get select => _selectedItem;
+  bool? get isAvailable => _isAvailable;
 
-  String? _results;
+
+  // getState(bool state) {
+  //   _isAvailable = state;
+  //   notifyListeners();
+  // }
+
   void getObj() async {
-    prefs = await SharedPreferences.getInstance();
     auth = FirebaseAuth.instance;
     auth?.setLanguageCode('en-US');
   }
 
   void getOBJMesseging() async {
+    prefs = await SharedPreferences.getInstance();
     _firebaseMessaging = FirebaseMessaging.instance;
+    _token = await _firebaseMessaging?.getToken();
   }
 
   // List get us => users;
 
   Future getContactData() async {
-    bool result = await _connection().then((value) => value);
+    bool result = await connection().then((value) => value);
 
     if (result) {
       databaseReference = FirebaseDatabase.instance.ref('contactForm');
@@ -83,7 +91,7 @@ class ModelProvider extends ChangeNotifier {
     });
   }
 
-  Future<bool> _connection() async {
+  Future<bool> connection() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     return connectivityResult == ConnectivityResult.wifi ||
         connectivityResult == ConnectivityResult.mobile;
@@ -137,7 +145,6 @@ class ModelProvider extends ChangeNotifier {
 
   void signInWithOTP(String verificationId, String number, String smsCode,
       BuildContext context) async {
-    String? token = await _firebaseMessaging?.getToken();
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: smsCode);
     UserCredential? result = await auth?.signInWithCredential(credential);
@@ -146,22 +153,13 @@ class ModelProvider extends ChangeNotifier {
     if (user != null) {
       removeScreen(context, HomeScreen.Route, false);
       saveData();
-      await registerDataInRealTime(number, token);
+
       // User signed in
     } else {
       removeScreen(context, SplashScreen.ROUTE, false);
       return;
       // Sign in failed
     }
-    notifyListeners();
-  }
-
-  Future registerDataInRealTime(String? number, String? token) async {
-    databaseReference = FirebaseDatabase.instance.ref('RegisterFather');
-    await databaseReference.child(number!).set({
-      'number': number,
-      'token': token,
-    });
     notifyListeners();
   }
 
@@ -174,14 +172,14 @@ class ModelProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> sendData() async {
+  Future<void> sendData(String number) async {
     final url = Uri.parse(
       'https://pointiq.site/tolkingWIthAndr/',
     );
     final headers = {
       'Content-Type': 'application/json; charset=utf-8',
     };
-    final data = {'name': '1110y'};
+    final data = {'phone': number};
 
     final response = await http.post(
       url,
@@ -190,15 +188,25 @@ class ModelProvider extends ChangeNotifier {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
+      Map<String, dynamic> stat = jsonDecode(response.body);
+      // ignore: unrelated_type_equality_checks
+      getOBJMesseging();
+      _isAvailable = stat['message'] == 'true';
+
     } else {
       // Error: handle the error
-      print('Request failed with status: ${response.statusCode}');
+      print('___________Request failed with status: ${response.statusCode}');
     }
+
+    notifyListeners();
   }
 
   void getStringData(String data) {
     _selectedItem = data;
     notifyListeners();
+  }
+
+  Future<void> registerInApi(String number) async {
+    // print('___________Register in a number $_token');
   }
 }

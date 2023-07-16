@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
           routes: {
             DetailScreen.Route: (context) => const DetailScreen(),
             HomeScreen.Route: (context) => const HomeScreen(),
-            SignInScreen.Route: (context) => const SignInScreen(),
+            SignInScreen.Route: (context) =>  SignInScreen(),
             OtpScreen.ROUTE: (context) => OtpScreen(),
             SplashScreen.ROUTE: (context) => const SplashScreen(),
           },
