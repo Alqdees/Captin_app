@@ -22,6 +22,11 @@ class ModelProvider extends ChangeNotifier {
   late SharedPreferences prefs;
   FirebaseMessaging? _firebaseMessaging;
   FirebaseAuth? auth;
+  List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  String _selectedItem = 'Item 1';
+
+  String get select => _selectedItem;
+
   String? _results;
   void getObj() async {
     prefs = await SharedPreferences.getInstance();
@@ -186,12 +191,14 @@ class ModelProvider extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       print(response.body);
-      // Success: do something with the response
-      // Map<String, List<Map<String ,dynamic>>> data = jsonDecode(response.body);
-      // print(data.values.toList());
     } else {
       // Error: handle the error
       print('Request failed with status: ${response.statusCode}');
     }
+  }
+
+  void getStringData(String data) {
+    _selectedItem = data;
+    notifyListeners();
   }
 }

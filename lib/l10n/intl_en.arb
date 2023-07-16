@@ -7,7 +7,7 @@
     "getNumber": "Enter your Number ",
     "Sign": "SignIn",
     "enterNumber": "Enter your Number",
-    "ShortNumber": "The Number is short",
+    "ShortNumber": "The Number is incorrect",
     "wait": "Waiting Plaese... ",
     "EnterOTP": "Enter Your OTP",
     "ErrorOTP": "Error The OTP",

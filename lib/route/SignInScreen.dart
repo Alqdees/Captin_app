@@ -16,8 +16,8 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _otpController = TextEditingController();
 
-  List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-  String selectedItem = 'Item 1';
+  // List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  // String selectedItem = 'Item 1';
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<ModelProvider>(context, listen: false);
@@ -49,18 +49,26 @@ class _SignInScreenState extends State<SignInScreen> {
               height: 2.h,
             ),
             Center(
-              child: DropdownButton<String>(
-                value: selectedItem,
-                items: items.map((String item) {
-                  return DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item),
+              child: Selector<ModelProvider, String>(
+                selector: (p0, p1) => p1.select,
+                builder: (context, value, child) {
+                  return DropdownButton<String>(
+                    value: value,
+                    items: prov.items.map((String item) {
+                      print('_____1 $item');
+                      return DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      prov.getStringData(newValue!);
+                      // setState(() {
+                      // selectedItem = newValue!;
+                      print("__________2 $newValue");
+                      // });
+                    },
                   );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedItem = newValue!;
-                  });
                 },
               ),
             ),
@@ -107,7 +115,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   );
                   return;
                 }
-                if (_otpController.text.length < 11) {
+                if (_otpController.text.length < 11 ||
+                    _otpController.text.length > 11) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(S.of(context).ShortNumber),
@@ -115,18 +124,12 @@ class _SignInScreenState extends State<SignInScreen> {
                   );
                   return;
                 }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(S.of(context).wait),
-                    elevation: 8,
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
+
                 Future.delayed(
-                  const Duration(seconds: 4),
+                  const Duration(seconds: 2),
                   () async {
-                    // print('___________onClick');
-                    prov.sendSMS(_otpController.text, context);
+                    print('___________onClick');
+                    // prov.sendSMS(_otpController.text, context);
                   },
                 );
               },
