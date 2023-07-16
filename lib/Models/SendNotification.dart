@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-abstract class SendNotification {
+class SendNotification {
 
-static sendNotification(String deviceToken, String title, String body) async {
-    const serverKey = 'AAAAy8LDVew:APA91bFDqumw5mbUu4rmiHMieTOK54XuhCw-0b5ApYLhpjiHjfME12DPxVqXKbx0icyB5y4jc6PFojADKndGE96yFgMltL5ZEJNqTQRxRLFtV2NgAc45BvGPKAI6fH65mEDUakG82LBN';
 
-    const fcmEndpoint = 'https://fcm.googleapis.com/fcm/send';
+  SendNotification._();
+  static const serverKey =
+      'AAAAy8LDVew:APA91bFDqumw5mbUu4rmiHMieTOK54XuhCw-0b5ApYLhpjiHjfME12DPxVqXKbx0icyB5y4jc6PFojADKndGE96yFgMltL5ZEJNqTQRxRLFtV2NgAc45BvGPKAI6fH65mEDUakG82LBN';
 
+  static const fcmEndpoint = 'https://fcm.googleapis.com/fcm/send';
+
+  static sendNotification(String deviceToken, String title, String body) async {
     final headers = <String, String>{
       'Content-Type': 'application/json',
       'Authorization': 'key=$serverKey',
@@ -30,7 +33,4 @@ static sendNotification(String deviceToken, String title, String body) async {
       print('________Notification sending failed.');
     }
   }
-
-
-
-    }
+}

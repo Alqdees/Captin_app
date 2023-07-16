@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ShortNumber":
             MessageLookupByLibrary.simpleMessage("The Number is short"),
         "Sign": MessageLookupByLibrary.simpleMessage("SignIn"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "date": MessageLookupByLibrary.simpleMessage("date :"),
         "descriptionOTP": MessageLookupByLibrary.simpleMessage(
@@ -37,8 +38,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "getNumber": MessageLookupByLibrary.simpleMessage("Enter your Number "),
         "name": MessageLookupByLibrary.simpleMessage("name :"),
         "nameApp": MessageLookupByLibrary.simpleMessage("School"),
+        "selectClass": MessageLookupByLibrary.simpleMessage("Select Class"),
         "wait": MessageLookupByLibrary.simpleMessage("Waiting Plaese... "),
         "welcome": MessageLookupByLibrary.simpleMessage(
-            "Welcome to Cappen Application")
+            "Welcome to The School Application")
       };
 }

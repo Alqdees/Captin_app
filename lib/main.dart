@@ -21,9 +21,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+//* hereis the run notification FCM
   await FireBaseApi().initNotification();
+// ! tocheck system theme
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+// check orientation system
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(
@@ -53,17 +55,16 @@ class MyApp extends StatelessWidget {
           supportedLocales: S.delegate.supportedLocales,
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          initialRoute: SplashScreen.ROUTE,
+          initialRoute:DetailScreen.Route,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          // home:  SignInScreen(),
           navigatorKey: navigatorKey,
           routes: {
             DetailScreen.Route: (context) => const DetailScreen(),
             HomeScreen.Route: (context) => const HomeScreen(),
-            SignInScreen.Route: (context) => SignInScreen(),
+            SignInScreen.Route: (context) => const SignInScreen(),
             OtpScreen.ROUTE: (context) => OtpScreen(),
             SplashScreen.ROUTE: (context) => const SplashScreen(),
           },

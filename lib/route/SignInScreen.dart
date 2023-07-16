@@ -4,24 +4,66 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../generated/l10n.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   static const Route = '/SignInScreen';
+
+  const SignInScreen({super.key});
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _otpController = TextEditingController();
 
-  SignInScreen({super.key});
-
+  List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  String selectedItem = 'Item 1';
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<ModelProvider>(context, listen: false);
     prov.getObj();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: const Text('Sign In'),
       ),
       body: Padding(
         padding: EdgeInsets.all(1.h),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(
+              height: 6.h,
+            ),
+            Center(
+              child: Text(
+                S.of(context).selectClass,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Center(
+              child: DropdownButton<String>(
+                value: selectedItem,
+                items: items.map((String item) {
+                  return DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(item),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedItem = newValue!;
+                  });
+                },
+              ),
+            ),
             SizedBox(
               height: 2.h,
             ),
@@ -108,4 +150,34 @@ class SignInScreen extends StatelessWidget {
       ),
     );
   }
+
+  // void _showPopupMenu(BuildContext context, Offset offset) async {
+  //   final RenderBox overlay =
+  //       Overlay.of(context).context.findRenderObject() as RenderBox;
+  //   final RelativeRect position = RelativeRect.fromRect(
+  //     Rect.fromPoints(
+  //       offset,
+  //       offset.translate(0, 0),
+  //     ),
+  //     Offset.zero & overlay.size,
+  //   );
+  //   final selectedItem = await showMenu<String>(
+  //     context: context,
+  //     position: position,
+  //     items: <PopupMenuEntry<String>>[
+  //       const PopupMenuItem<String>(
+  //         value: 'Option 1',
+  //         child: Text('Option 1'),
+  //       ),
+  //       const PopupMenuItem<String>(
+  //         value: 'Option 2',
+  //         child: Text('Option 2'),
+  //       ),
+  //       const PopupMenuItem<String>(
+  //         value: 'Option 3',
+  //         child: Text('Option 3'),
+  //       ),
+  //     ],
+  //   );
+  // }
 }

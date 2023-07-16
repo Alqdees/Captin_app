@@ -21,7 +21,6 @@ dependencies:
   shared_preferences: ^2.2.0
   google_fonts: ^5.1.0
   firebase_auth: ^4.6.3
-  
   # flutter_intl:
   #   enabled: true
 dev_dependencies:

@@ -4,15 +4,10 @@ import 'package:notification_of_support/constants/assets_images.dart';
 import 'package:notification_of_support/generated/l10n.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
 import '../model_provider/provider.dart';
 import 'HomeScreen.dart';
 import 'SignInScreen.dart';
-// import 'package:flutter/services.dart';
-// import 'package:notification_of_support/route/HomeScreen.dart';
-// import 'package:provider/provider.dart';
-// import '../model_provider/provider.dart';
-// import 'SignInScreen.dart';
+
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -67,9 +62,6 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 2.h),
-            const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-            ),
           ],
         ),
       ),

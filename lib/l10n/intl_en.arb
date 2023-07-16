@@ -12,5 +12,8 @@
     "EnterOTP": "Enter Your OTP",
     "ErrorOTP": "Error The OTP",
     "nameApp": "School",
-    "welcome": "Welcome to Cappen Application"
+    "welcome": "Welcome to The School Application",
+    "cancel": "Cancel",
+    "selectClass": "Select Class"
+
 }

@@ -180,11 +180,31 @@ class S {
     );
   }
 
-  /// `Welcome to Cappen Application`
+  /// `Welcome to The School Application`
   String get welcome {
     return Intl.message(
-      'Welcome to Cappen Application',
+      'Welcome to The School Application',
       name: 'welcome',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Class`
+  String get selectClass {
+    return Intl.message(
+      'Select Class',
+      name: 'selectClass',
       desc: '',
       args: [],
     );

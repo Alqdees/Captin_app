@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -9,7 +10,7 @@ import 'package:notification_of_support/route/HomeScreen.dart';
 import 'package:notification_of_support/route/OtpScreen.dart';
 import 'package:notification_of_support/route/SplashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart ' as http;
 import '../Models/SendDataOtp.dart';
 
 class ModelProvider extends ChangeNotifier {
@@ -21,6 +22,7 @@ class ModelProvider extends ChangeNotifier {
   late SharedPreferences prefs;
   FirebaseMessaging? _firebaseMessaging;
   FirebaseAuth? auth;
+  String? _results;
   void getObj() async {
     prefs = await SharedPreferences.getInstance();
     auth = FirebaseAuth.instance;
@@ -159,7 +161,37 @@ class ModelProvider extends ChangeNotifier {
   }
 
   void sendNotification() async {
-    SendNotification.sendNotification('dsdnGviKTtW3nx_Eg9pDbY:APA91bEYILyGOKhjWdPZf0SMXW7Je59hGw9EBIR4elftLssG8eKinO8Pe9LEOJN6txye_kNV5lXHchGWZZS3UOb4maldN9kXblZFSPMXL7eRwgK76bk0x5gAedvajGfHbmke_ShRc8QZ', 'مساء الخير', 'اذا اشتغل راسلني ');
+    SendNotification.sendNotification(
+      'dsdnGviKTtW3nx_Eg9pDbY:APA91bEYILyGOKhjWdPZf0SMXW7Je59hGw9EBIR4elftLssG8eKinO8Pe9LEOJN6txye_kNV5lXHchGWZZS3UOb4maldN9kXblZFSPMXL7eRwgK76bk0x5gAedvajGfHbmke_ShRc8QZ',
+      'مساء الخير',
+      'اذا اشتغل راسلني ',
+    );
     notifyListeners();
+  }
+
+  Future<void> sendData() async {
+    final url = Uri.parse(
+      'https://pointiq.site/tolkingWIthAndr/',
+    );
+    final headers = {
+      'Content-Type': 'application/json; charset=utf-8',
+    };
+    final data = {'name': '1110y'};
+
+    final response = await http.post(
+      url,
+      headers: headers,
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      // Success: do something with the response
+      // Map<String, List<Map<String ,dynamic>>> data = jsonDecode(response.body);
+      // print(data.values.toList());
+    } else {
+      // Error: handle the error
+      print('Request failed with status: ${response.statusCode}');
+    }
   }
 }

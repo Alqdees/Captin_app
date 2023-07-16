@@ -1,11 +1,49 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:notification_of_support/model_provider/provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+import '../generated/l10n.dart';
 import 'Widget/CardView.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   static const Route = '/HomeScreen';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(message.notification!.title.toString()),
+                content: Text(
+                  message.notification!.body.toString(),
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(S.of(context).cancel),
+                  )
+                ],
+              );
+            });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +74,6 @@ class HomeScreen extends StatelessWidget {
                             name: value.users[index]['name'],
                             msgContent: value.users[index]['msgContent'],
                           ),
-
                         );
                       },
                     ),
