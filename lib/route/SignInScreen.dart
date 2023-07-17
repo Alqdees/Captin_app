@@ -96,51 +96,7 @@ class SignInScreen extends StatelessWidget {
             SizedBox(height: 4.h),
             ElevatedButton(
               onPressed: () async {
-                if (_number.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(S.of(context).enterNumber),
-                    ),
-                  );
-                  return;
-                }
-                if (_number.text.length < 11 || _number.text.length > 11) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(S.of(context).ShortNumber),
-                    ),
-                  );
-                  return;
-                }
-                if (await prov.connection()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                     const SnackBar(
-                      content: Text('no internet connection'),
-                    ),
-                  );
-                  return;
-                }
-                prov.sendData(_number.text);
-                myFunction(context);
-
-                await Future.delayed(
-                  const Duration(seconds: 5),
-                  () async {
-                    if (prov.isAvailable ?? false) {
-                      await prov.saveData();
-                      await prov.registerInApi(_number.text);
-                      prov.removeScreen(context, HomeScreen.Route, false);
-                      return;
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          duration: Duration(seconds: 3),
-                          content: Text('Error'),
-                        ),
-                      );
-                    }
-                  },
-                );
+                await checkAndRegister (context, prov);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
@@ -163,7 +119,7 @@ class SignInScreen extends StatelessWidget {
     );
   }
 
-  void myFunction(BuildContext context) async {
+  Future<void> myFunction(BuildContext context) async {
     showDialog(
       context: context,
       useSafeArea: true,
@@ -177,7 +133,55 @@ class SignInScreen extends StatelessWidget {
       },
     );
 
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 4));
     Navigator.of(context).pop();
+  }
+
+  Future<void> checkAndRegister(BuildContext context, ModelProvider provider) async {
+    if (_number.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).enterNumber),
+        ),
+      );
+      return;
+    }
+    if (_number.text.length < 11 || _number.text.length > 11) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).ShortNumber),
+        ),
+      );
+      return;
+    }
+    // if (await provider.connection()) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('no internet connection'),
+    //     ),
+    //   );
+    //   return;
+    // }
+    provider.sendData(_number.text);
+    myFunction(context);
+
+    await Future.delayed(
+      const Duration(seconds: 5),
+      () async {
+        if (provider.isAvailable ?? false) {
+          await provider.saveData();
+          await provider.registerInApi(_number.text);
+          provider.removeScreen(context, HomeScreen.Route, false);
+          return;
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              duration: Duration(seconds: 3),
+              content: Text('Error'),
+            ),
+          );
+        }
+      },
+    );
   }
 }

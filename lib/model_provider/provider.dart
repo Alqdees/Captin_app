@@ -29,13 +29,13 @@ class ModelProvider extends ChangeNotifier {
   String get select => _selectedItem;
   bool? get isAvailable => _isAvailable;
 
-
   // getState(bool state) {
   //   _isAvailable = state;
   //   notifyListeners();
   // }
 
   void getObj() async {
+    prefs = await SharedPreferences.getInstance();
     auth = FirebaseAuth.instance;
     auth?.setLanguageCode('en-US');
   }
@@ -49,9 +49,9 @@ class ModelProvider extends ChangeNotifier {
   // List get us => users;
 
   Future getContactData() async {
-    bool result = await connection().then((value) => value);
-
-    if (result) {
+    // bool result = await connection().then((value) => value);
+    // print(await connection());
+    // if (await connection()) {
       databaseReference = FirebaseDatabase.instance.ref('contactForm');
       users.clear();
       databaseReference.onValue.listen(
@@ -71,8 +71,8 @@ class ModelProvider extends ChangeNotifier {
         timer.cancel();
         return;
       });
-      return;
-    }
+    //   return;
+    // }
     Timer.periodic(const Duration(seconds: 20), (timer) {
       // Call your function here
       print('is empty 20  seconds');
@@ -93,8 +93,8 @@ class ModelProvider extends ChangeNotifier {
 
   Future<bool> connection() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
-    return connectivityResult == ConnectivityResult.wifi ||
-        connectivityResult == ConnectivityResult.mobile;
+    return (connectivityResult == ConnectivityResult.wifi) ||
+        (connectivityResult == ConnectivityResult.mobile);
   }
 
   void managerScreen(String route, BuildContext context, Object? object) {
@@ -192,7 +192,6 @@ class ModelProvider extends ChangeNotifier {
       // ignore: unrelated_type_equality_checks
       getOBJMesseging();
       _isAvailable = stat['message'] == 'true';
-
     } else {
       // Error: handle the error
       print('___________Request failed with status: ${response.statusCode}');
