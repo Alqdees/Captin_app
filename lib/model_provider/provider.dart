@@ -26,7 +26,7 @@ class ModelProvider extends ChangeNotifier {
   String _selectedItem = 'Item 1';
   String? _token;
   bool? _isAvailable;
-  bool? _isRegister;
+  bool? isRegister;
   String get select => _selectedItem;
   bool? get isAvailable => _isAvailable;
 
@@ -112,6 +112,13 @@ class ModelProvider extends ChangeNotifier {
     prefs.setBool('isLoggin', true);
   }
 
+  Future<void> removeData(BuildContext context) async {
+    await prefs.remove('isLoggin');
+    await prefs.clear();
+    // ignore: use_build_context_synchronously
+    removeScreen(context, SplashScreen.ROUTE, false);
+  }
+
   void sendSMS(String number, BuildContext context) async {
     await auth?.verifyPhoneNumber(
       phoneNumber: '+964${number.substring(1)}',
@@ -179,7 +186,6 @@ class ModelProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       getOBJMesseging();
       Map<String, dynamic> stat = jsonDecode(response.body);
-      print('__________ere1 _${response.body}');
       _isAvailable = stat['message'];
     }
     notifyListeners();
@@ -212,6 +218,7 @@ class ModelProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       Map<String, dynamic> stat = jsonDecode(response.body);
       print('_____responseRegister_stat____${stat['message']}');
+      isRegister = stat['message'];
     } else {
       print('________________ErrorReg: ${response.statusCode}');
     }

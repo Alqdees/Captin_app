@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:notification_of_support/main.dart';
 import 'package:notification_of_support/model_provider/provider.dart';
-import 'package:notification_of_support/route/HomeScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../generated/l10n.dart';
+import 'HomeScreen.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   static const Route = '/SignInScreen';
 
   SignInScreen({super.key});
 
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _number = TextEditingController();
 
   // List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
@@ -133,12 +139,13 @@ class SignInScreen extends StatelessWidget {
       },
     );
 
-    await Future.delayed(const Duration(seconds: 4));
-    Navigator.of(context).pop();
+    await Future.delayed(const Duration(seconds: 3));
   }
 
   Future<void> checkAndRegister(
-      BuildContext context, ModelProvider provider) async {
+    BuildContext context,
+    ModelProvider provider,
+  ) async {
     if (_number.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -147,7 +154,7 @@ class SignInScreen extends StatelessWidget {
       );
       return;
     }
-    if (_number.text.length < 11 || _number.text.length > 11) {
+    if (_number.text.length < 11) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(S.of(context).ShortNumber),
@@ -155,23 +162,18 @@ class SignInScreen extends StatelessWidget {
       );
       return;
     }
-    // if (await provider.connection()) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text('no internet connection'),
-    //     ),
-    //   );
-    //   return;
-    // }
     provider.sendData(_number.text);
     myFunction(context);
-
     await Future.delayed(
-      const Duration(seconds: 5),
+      const Duration(seconds: 3),
       () async {
         if (provider.isAvailable ?? false) {
-          await provider.saveData();
+          //
           await provider.registerInApi(_number.text);
+          //
+        }
+        if (provider.isRegister ?? false) {
+          await provider.saveData();
           provider.removeScreen(context, HomeScreen.Route, false);
           return;
         } else {

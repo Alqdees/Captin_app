@@ -52,6 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("RealTime"),
         elevation: 12.0,
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       context.read<ModelProvider>().removeData(context);
+        //     },
+        //     icon: const Icon(Icons.logout),
+        //   ),
+        // ],
       ),
       body: Consumer<ModelProvider>(
         builder: (context, value, c) {
