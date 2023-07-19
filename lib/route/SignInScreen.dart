@@ -96,7 +96,7 @@ class SignInScreen extends StatelessWidget {
             SizedBox(height: 4.h),
             ElevatedButton(
               onPressed: () async {
-                await checkAndRegister (context, prov);
+                await checkAndRegister(context, prov);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
@@ -137,7 +137,8 @@ class SignInScreen extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
-  Future<void> checkAndRegister(BuildContext context, ModelProvider provider) async {
+  Future<void> checkAndRegister(
+      BuildContext context, ModelProvider provider) async {
     if (_number.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
