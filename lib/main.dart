@@ -1,11 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:notification_of_support/model_provider/FireBaseApi.dart';
-import 'package:notification_of_support/route/Detail_screen.dart';
 import 'package:notification_of_support/route/HomeScreen.dart';
-import 'package:notification_of_support/route/OtpScreen.dart';
 import 'package:notification_of_support/route/SignInScreen.dart';
 import 'package:notification_of_support/route/SplashScreen.dart';
 import 'package:provider/provider.dart';
@@ -21,13 +17,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-//* hereis the run notification FCM
-  await FireBaseApi().initNotification();
+// * hereis the run notification FCM
+
 // ! tocheck system theme
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-// check orientation system
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
   runApp(
     MultiProvider(
       providers: [
@@ -55,17 +48,15 @@ class MyApp extends StatelessWidget {
           supportedLocales: S.delegate.supportedLocales,
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          initialRoute:SplashScreen.ROUTE,
+          initialRoute: SplashScreen.ROUTE,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
           navigatorKey: navigatorKey,
           routes: {
-            DetailScreen.Route: (context) => const DetailScreen(),
             HomeScreen.Route: (context) => const HomeScreen(),
-            SignInScreen.Route: (context) =>  SignInScreen(),
-            OtpScreen.ROUTE: (context) => OtpScreen(),
+            SignInScreen.Route: (context) => const SignInScreen(),
             SplashScreen.ROUTE: (context) => const SplashScreen(),
           },
         );

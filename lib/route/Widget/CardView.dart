@@ -36,7 +36,7 @@ class CardView extends StatelessWidget {
                     SizedBox(
                       width: 1.w,
                     ),
-                    Text(msgContent,
+                    Text(name,
                         style:
                             const TextStyle(fontSize: 20, color: Colors.black)),
                   ],
@@ -49,7 +49,7 @@ class CardView extends StatelessWidget {
                     SizedBox(
                       width: 1.w,
                     ),
-                    Text(name,
+                    Text(msgContent,
                         style:
                             const TextStyle(fontSize: 20, color: Colors.black)),
                   ],

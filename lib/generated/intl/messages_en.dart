@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ShortNumber":
             MessageLookupByLibrary.simpleMessage("The number should be 11"),
         "Sign": MessageLookupByLibrary.simpleMessage("SignIn"),
+        "absence_student":
+            MessageLookupByLibrary.simpleMessage("Absence Of The Student"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "date": MessageLookupByLibrary.simpleMessage("date :"),
@@ -38,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "getNumber": MessageLookupByLibrary.simpleMessage("Enter your Number "),
         "name": MessageLookupByLibrary.simpleMessage("name :"),
         "nameApp": MessageLookupByLibrary.simpleMessage("School"),
+        "save": MessageLookupByLibrary.simpleMessage("Save"),
         "selectClass": MessageLookupByLibrary.simpleMessage("Select Class"),
         "wait": MessageLookupByLibrary.simpleMessage("Waiting Plaese... "),
         "welcome": MessageLookupByLibrary.simpleMessage(

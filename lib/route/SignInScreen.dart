@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notification_of_support/main.dart';
 import 'package:notification_of_support/model_provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -9,7 +8,7 @@ import 'HomeScreen.dart';
 class SignInScreen extends StatefulWidget {
   static const Route = '/SignInScreen';
 
-  SignInScreen({super.key});
+  const SignInScreen({super.key});
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -27,99 +26,101 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: Colors.blue,
         title: const Text('Sign In'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(1.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(
-              height: 6.h,
-            ),
-            Center(
-              child: Text(
-                S.of(context).selectClass,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(1.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(
+                height: 6.h,
+              ),
+              // Center(
+              //   child: Text(
+              //     S.of(context).selectClass,
+              //     style: TextStyle(
+              //       fontSize: 16.sp,
+              //       fontWeight: FontWeight.bold,
+              //       color: Colors.black,
+              //     ),
+              //   ),
+              // ),
+              SizedBox(
+                height: 2.h,
+              ),
+              // Center(
+              //   child: Selector<ModelProvider, String>(
+              //     selector: (p0, p1) => p1.select,
+              //     builder: (context, value, child) {
+              //       return DropdownButton<String>(
+              //         value: value,
+              //         items: prov.items.map((String item) {
+              //           return DropdownMenuItem<String>(
+              //             value: item,
+              //             child: Text(item),
+              //           );
+              //         }).toList(),
+              //         onChanged: (String? newValue) {
+              //           prov.getStringData(newValue!);
+              //         },
+              //       );
+              //     },
+              //   ),
+              // ),
+              SizedBox(
+                height: 2.h,
+              ),
+              Center(
+                child: Text(
+                  S.of(context).getNumber,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Center(
-              child: Selector<ModelProvider, String>(
-                selector: (p0, p1) => p1.select,
-                builder: (context, value, child) {
-                  return DropdownButton<String>(
-                    value: value,
-                    items: prov.items.map((String item) {
-                      return DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      prov.getStringData(newValue!);
-                    },
-                  );
+              SizedBox(
+                height: 2.h,
+              ),
+              TextField(
+                controller: _number,
+                keyboardType: TextInputType.number,
+                style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.start,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: const BorderSide(color: Colors.teal),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: const BorderSide(color: Colors.teal),
+                  ),
+                ),
+              ),
+              SizedBox(height: 4.h),
+              ElevatedButton(
+                onPressed: () async {
+                  await checkAndRegister(context, prov);
                 },
-              ),
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Center(
-              child: Text(
-                S.of(context).getNumber,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 104, 181, 173),
+                  ),
+                ),
+                child: Text(
+                  S.of(context).Sign,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    backgroundColor: Colors.transparent,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            TextField(
-              controller: _number,
-              keyboardType: TextInputType.number,
-              style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.start,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(color: Colors.teal),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(color: Colors.teal),
-                ),
-              ),
-            ),
-            SizedBox(height: 4.h),
-            ElevatedButton(
-              onPressed: () async {
-                await checkAndRegister(context, prov);
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color.fromARGB(255, 104, 181, 173),
-                ),
-              ),
-              child: Text(
-                S.of(context).Sign,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  backgroundColor: Colors.transparent,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -140,6 +141,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
 
     await Future.delayed(const Duration(seconds: 3));
+    Navigator.pop(context);
   }
 
   Future<void> checkAndRegister(
@@ -152,6 +154,7 @@ class _SignInScreenState extends State<SignInScreen> {
           content: Text(S.of(context).enterNumber),
         ),
       );
+
       return;
     }
     if (_number.text.length < 11) {
@@ -160,6 +163,7 @@ class _SignInScreenState extends State<SignInScreen> {
           content: Text(S.of(context).ShortNumber),
         ),
       );
+
       return;
     }
     provider.sendData(_number.text);
@@ -177,6 +181,7 @@ class _SignInScreenState extends State<SignInScreen> {
           provider.removeScreen(context, HomeScreen.Route, false);
           return;
         } else {
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               duration: Duration(seconds: 3),

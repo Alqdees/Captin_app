@@ -209,6 +209,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Absence Of The Student`
+  String get absence_student {
+    return Intl.message(
+      'Absence Of The Student',
+      name: 'absence_student',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,3 +1,4 @@
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:notification_of_support/model_provider/provider.dart';
@@ -17,10 +18,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
+        String? title = message.notification!.title;
+        String? body = message.notification!.body;
+
         showDialog(
             context: context,
             builder: (context) {
@@ -41,33 +45,51 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               );
             });
+        // AwesomeNotifications().createNotification(
+        //     content: NotificationContent(
+        //       id: 123,
+        //       channelKey: 'call_channel',
+        //       color: Colors.white,
+        //       title: title,
+        //       body: body,
+        //       category: NotificationCategory.Event,
+        //       wakeUpScreen: true,
+        //       fullScreenIntent: true,
+        //       autoDismissible: true,
+        //       backgroundColor: Colors.yellowAccent,
+        //     ),
+        //     actionButtons: [
+        //       NotificationActionButton(
+        //         key: 'Cancel',
+        //         label: 'Cancel',
+        //         autoDismissible: true,
+        //       ),
+        //     ]);
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<ModelProvider>().getContactData();
+    context.read<ModelProvider>().getDataFromApi();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("RealTime"),
+        title: Text(S.of(context).absence_student),
         elevation: 12.0,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       context.read<ModelProvider>().removeData(context);
-        //     },
-        //     icon: const Icon(Icons.logout),
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+            onPressed: () async {
+              context.read<ModelProvider>().removeData(context);
+            },
+            icon: const Icon(Icons.logout),
+          )
+        ],
       ),
       body: Consumer<ModelProvider>(
         builder: (context, value, c) {
           return value.users.isEmpty
               ? const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 4,
-                  ),
+                  child: CircularProgressIndicator(),
                 )
               : Center(
                   child: Container(
@@ -79,8 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           elevation: 8,
                           shadowColor: Colors.black,
                           child: CardView(
-                            name: value.users[index]['name'],
-                            msgContent: value.users[index]['msgContent'],
+                            name: value.users[index]['student_name'],
+                            msgContent: value.users[index]['absence_date'],
                           ),
                         );
                       },
