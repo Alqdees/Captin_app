@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:notification_of_support/Service/ServiceNotification.dart';
 import 'package:notification_of_support/route/HomeScreen.dart';
 import 'package:notification_of_support/route/SignInScreen.dart';
 import 'package:notification_of_support/route/SplashScreen.dart';
@@ -18,7 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 // * hereis the run notification FCM
-
+  await ServiceNotification.initializeNotification();
 // ! tocheck system theme
 
   runApp(
@@ -50,13 +51,15 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           initialRoute: SplashScreen.ROUTE,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple,
+            ),
             useMaterial3: true,
           ),
           navigatorKey: navigatorKey,
           routes: {
             HomeScreen.Route: (context) => const HomeScreen(),
-            SignInScreen.Route: (context) => const SignInScreen(),
+            SignInScreen.Route: (context) =>  SignInScreen(),
             SplashScreen.ROUTE: (context) => const SplashScreen(),
           },
         );

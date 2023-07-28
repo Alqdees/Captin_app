@@ -1,6 +1,8 @@
+import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_of_support/model_provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -16,14 +18,57 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static FlutterLocalNotificationsPlugin notificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  void showNotification() async {
+    AndroidNotificationDetails androidDetails =
+        const AndroidNotificationDetails(
+            "notifications-youtube", "YouTube Notifications",
+            priority: Priority.max, importance: Importance.max);
+
+    DarwinNotificationDetails iosDetails = const DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+
+    NotificationDetails notiDetails =
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
+    await Future.delayed(
+      const Duration(seconds: 5),
+      (() {
+        notificationsPlugin.show(11, 'title', 'body', notiDetails,
+            payload: 'notification Ahmed');
+      }),
+    );
+  }
+
+  void checkForNotification() async {
+    NotificationAppLaunchDetails? details =
+        await notificationsPlugin.getNotificationAppLaunchDetails();
+
+    if (details != null) {
+      if (details.didNotificationLaunchApp) {
+        NotificationResponse? response = details.notificationResponse;
+
+        if (response != null) {
+          String? payload = response.payload;
+          log("Notification Payload___________: $payload");
+          print("Notification Payload___________: $payload");
+        }
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-
+    checkForNotification();
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
-        String? title = message.notification!.title;
-        String? body = message.notification!.body;
+        // String? title = message.notification!.title;
+        // String? body = message.notification!.body;
 
         showDialog(
             context: context,
@@ -45,51 +90,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               );
             });
-        // AwesomeNotifications().createNotification(
-        //     content: NotificationContent(
-        //       id: 123,
-        //       channelKey: 'call_channel',
-        //       color: Colors.white,
-        //       title: title,
-        //       body: body,
-        //       category: NotificationCategory.Event,
-        //       wakeUpScreen: true,
-        //       fullScreenIntent: true,
-        //       autoDismissible: true,
-        //       backgroundColor: Colors.yellowAccent,
-        //     ),
-        //     actionButtons: [
-        //       NotificationActionButton(
-        //         key: 'Cancel',
-        //         label: 'Cancel',
-        //         autoDismissible: true,
-        //       ),
-        //     ]);
       },
     );
   }
 
+  // final TextEditingController _number = TextEditingController();
+  int i = 0;
   @override
   Widget build(BuildContext context) {
     context.read<ModelProvider>().getDataFromApi();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).absence_student),
-        elevation: 12.0,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              context.read<ModelProvider>().removeData(context);
-            },
-            icon: const Icon(Icons.logout),
-          )
-        ],
-      ),
-      body: Consumer<ModelProvider>(
-        builder: (context, value, c) {
-          return value.users.isEmpty
-              ? const Center(
-                  child: CircularProgressIndicator(),
+    return Consumer<ModelProvider>(
+      builder: (context, value, child) {
+        i++;
+        log('-----$i');
+        return Scaffold(
+          appBar: AppBar(
+            title: value.title,
+            elevation: 12.0,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  context.read<ModelProvider>().changewidget();
+                },
+                icon: value.actionsicon,
+              ),
+            ],
+          ),
+          body: value.users.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const CircularProgressIndicator(),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      Text(S.of(context).wait)
+                    ],
+                  ),
                 )
               : Center(
                   child: Container(
@@ -108,9 +147,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
-                );
-        },
-      ),
+                ),
+        );
+      },
     );
   }
 }

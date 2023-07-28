@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:notification_of_support/constants/assets_images.dart';
 import 'package:notification_of_support/generated/l10n.dart';
 import 'package:provider/provider.dart';
@@ -8,23 +7,12 @@ import '../model_provider/provider.dart';
 import 'HomeScreen.dart';
 import 'SignInScreen.dart';
 
-
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   static const ROUTE = '/SplashScreen';
 
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-
-@override
-void initState() {
-  super.initState();
-}
-
+  // static FlutterLocalNotificationsPlugin notificationsPlugin =
   @override
   Widget build(BuildContext context) {
     final providModel = Provider.of<ModelProvider>(context, listen: false);
@@ -37,7 +25,6 @@ void initState() {
         } else {
           providModel.removeScreen(context, SignInScreen.Route, false);
         }
-        SystemChrome.restoreSystemUIOverlays();
       },
     );
 

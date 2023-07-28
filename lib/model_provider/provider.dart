@@ -1,25 +1,55 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:notification_of_support/route/SplashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart ' as http;
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:sizer/sizer.dart';
+
+import '../generated/l10n.dart';
 
 class ModelProvider extends ChangeNotifier {
   List users = [];
-  late FirebaseDatabase database;
-  late DatabaseReference databaseReference;
+  List search = [];
+  Widget title = Text(S.current.absence_student);
+  Icon actionsicon = const Icon(Icons.search);
   late SharedPreferences prefs;
   FirebaseMessaging? _firebaseMessaging;
   String? _token;
   bool? _isAvailable;
   bool? isRegister;
   bool? get isAvailable => _isAvailable;
+  final TextEditingController number = TextEditingController();
 
   void getObj() async {
     prefs = await SharedPreferences.getInstance();
+  }
+
+  void changewidget() {
+    if (actionsicon.icon == Icons.search) {
+      actionsicon = const Icon(Icons.close);
+      title = TextField(
+        controller: number,
+        keyboardType: TextInputType.text,
+        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+        textAlign: TextAlign.start,
+        onSubmitted: (v) {
+          searchName(v);
+          print('____$v');
+        },
+      );
+      notifyListeners();
+    } else {
+      getDataFromApi();
+      number.text = "";
+      actionsicon = const Icon(Icons.search);
+      title = Text(S().absence_student);
+      notifyListeners();
+    }
+
   }
 
   void getOBJMesseging() async {
@@ -34,6 +64,18 @@ class ModelProvider extends ChangeNotifier {
       route,
       arguments: object,
     );
+    notifyListeners();
+  }
+
+  void searchName(String? name) {
+    if (name == null) return;
+
+    for (var element in users) {
+      if (element['student_name'].toString().contains(name)) {
+        search.add(element);
+      }
+    }
+    users = search;
     notifyListeners();
   }
 
@@ -68,14 +110,26 @@ class ModelProvider extends ChangeNotifier {
 
   void getDataFromApi() async {
     final url = Uri.parse('https://pointiq.site/vendor/DataIndex3ToJson.php');
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-     users = json.decode(response.body);
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      Timer.periodic(
+        const Duration(seconds: 6),
+        (timer) {
+          getDataFromApi();
+          print('______${timer.tick}');
+          timer.cancel();
+          return;
+        },
+      );
     } else {
-      print(response.statusCode);
+      Response response = await http.get(url);
+      if (response.statusCode == 200) {
+        users = json.decode(response.body);
+      } else {
+        print(response.statusCode);
+      }
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   Future<void> sendData(String number) async {

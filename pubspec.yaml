@@ -9,8 +9,9 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   firebase_core: ^2.14.0
-  firebase_database: ^10.2.3
-  firebase_messaging: ^14.6.4
+  # firebase_database: ^10.2.3
+  firebase_messaging: ^14.6.5
+  connectivity_plus: ^4.0.1
   provider: ^6.0.5
   sizer: ^2.0.15
   http: ^1.1.0
@@ -18,12 +19,11 @@ dependencies:
   flutter_localizations:
         sdk: flutter
   shared_preferences: ^2.2.0
-  google_fonts: ^5.1.0
+  # google_fonts: ^5.1.0
   flutter_local_notifications: ^15.1.0+1
-  # awesome_notifications:
+  # rxdart: ^0.27.7
+  # awesome_notifications: ^0.7.4+1
 
-  # flutter_intl:
-  #   enabled: true
 dev_dependencies:
   flutter_test:
     sdk: flutter

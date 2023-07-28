@@ -5,26 +5,19 @@ import 'package:sizer/sizer.dart';
 import '../generated/l10n.dart';
 import 'HomeScreen.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends StatelessWidget {
   static const Route = '/SignInScreen';
 
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
 
-  @override
-  State<SignInScreen> createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _number = TextEditingController();
-
-  // List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<ModelProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text('Sign In'),
+        title: Text(S.of(context).Sign),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -35,38 +28,9 @@ class _SignInScreenState extends State<SignInScreen> {
               SizedBox(
                 height: 6.h,
               ),
-              // Center(
-              //   child: Text(
-              //     S.of(context).selectClass,
-              //     style: TextStyle(
-              //       fontSize: 16.sp,
-              //       fontWeight: FontWeight.bold,
-              //       color: Colors.black,
-              //     ),
-              //   ),
-              // ),
               SizedBox(
                 height: 2.h,
               ),
-              // Center(
-              //   child: Selector<ModelProvider, String>(
-              //     selector: (p0, p1) => p1.select,
-              //     builder: (context, value, child) {
-              //       return DropdownButton<String>(
-              //         value: value,
-              //         items: prov.items.map((String item) {
-              //           return DropdownMenuItem<String>(
-              //             value: item,
-              //             child: Text(item),
-              //           );
-              //         }).toList(),
-              //         onChanged: (String? newValue) {
-              //           prov.getStringData(newValue!);
-              //         },
-              //       );
-              //     },
-              //   ),
-              // ),
               SizedBox(
                 height: 2.h,
               ),
@@ -181,7 +145,6 @@ class _SignInScreenState extends State<SignInScreen> {
           provider.removeScreen(context, HomeScreen.Route, false);
           return;
         } else {
-
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               duration: Duration(seconds: 3),
